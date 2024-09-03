@@ -1,3 +1,4 @@
+using CookieClicker;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,20 +7,23 @@ namespace ClickerTestTask
 {
     public class LoadingBar : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField, Tooltip("Слидер")]
         private Slider progressBar;
 
-        [SerializeField]
+        [SerializeField,Header("Канвас с загрузкой")]
         private GameObject loadingCanvas;
+
+        [SerializeField, Header("Скорость симуляции загрузки")]
+        private float speedTimer = 0.001f;
 
         private void Start()
         {
             progressBar.value = 0.0f;
 
-            StartCoroutine(LoadingStartScene(0.001f));
+            StartCoroutine(StartLoadingBarCoroutine(speedTimer));
         }
 
-        private IEnumerator LoadingStartScene(float delayTimer)
+        private IEnumerator StartLoadingBarCoroutine(float delayTimer)
         {
             while (progressBar.value < 0.98f)
             {
@@ -27,7 +31,7 @@ namespace ClickerTestTask
                 progressBar.value += delayTimer;
             }
 
-            loadingCanvas.SetActive(false);
+            loadingCanvas.Deactivation();
 
             yield return null;
         }
